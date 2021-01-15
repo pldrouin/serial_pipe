@@ -1,0 +1,21 @@
+Building process:
+
+The code consists in simple C code that only depends on POSIX dependencies. It should be simply compilable through the provided Makefile using GNU Make.
+
+Usage:
+
+serial_pipe [serial_dev] [baudrate]
+
+serial_pipe opens the serial device serial_dev, if provided, using the optional baud rate, then it creates a bidirectional pipe between the standard input  / standard output and the serial line TX / RX. If a serial device is not provided, a pseudo-terminal is created, and its name is then printed through the standard error.
+
+
+bidirectionalssh.sh command ssh_server[:ssh_port] remote_command
+
+The bidirectionalssh.sh script connects to the SSH server ssh_server using the port ssh_port, if provided, then connects the standard input / standard output of the provided local command to the standard output / standard input of the provided remote command. SSH authentication should be done through keys (that can be generated using ssh-keygen), as password prompt mechanism is incompatible with the standard input redirection.
+
+Usage example:
+
+./bidirectionalssh.sh "serial_pipe /dev/ttyUSB0 1000000" myserver "$HOME/serial_pipe /dev/ttyUSB1 115200"
+
+Establish an SSH connection between the local machine and myserver, then launch the local executable "serial_pipe", configured to connect to the /dev/ttyUSB0 serial device with a rate of 1000000 bps, as well as the executable "$HOME/serial_pipe" on the remote machine, which is configured to connect to the /dev/ttyUSB1 serial device with a rate of 115200 bps.
+
